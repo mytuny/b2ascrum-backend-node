@@ -52,7 +52,7 @@ router.post('/', auth, (req, res) => {
  * PUT /api/columns/:id
  * Update column by ID
  */
-router.post('/', auth, (req, res) => {
+router.put('/:id', auth, async (req, res) => {
     if( !req.params.id )
         return res.status(400).send('Invalid Resource.');
 

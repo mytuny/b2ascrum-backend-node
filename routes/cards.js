@@ -4,7 +4,6 @@ const Joi = require('@hapi/joi');
 
 const auth = require('../middleware/auth');
 
-const Column = require('../models/columns');
 const Card = require('../models/cards');
 
 /**
@@ -27,7 +26,7 @@ router.post('/', auth, (req, res) => {
         content: Joi.string(),
         order: Joi.number().min(0)
     });
-
+    console.log(req.body);
     const {error, value} = input.validate(req.body);
     if(error) return res.status(400).send(error);
 

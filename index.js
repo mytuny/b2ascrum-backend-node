@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const cors = require('cors');
+const bodyParser = require('body-parser')
 
 mongoose.connect('mongodb://localhost:27017/b2ascrum', {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => console.log('Connected to MongoDB...'))
@@ -9,7 +11,9 @@ mongoose.connect('mongodb://localhost:27017/b2ascrum', {useNewUrlParser: true, u
 const columnsRouter = require('./routes/columns');
 const cardsRouter = require('./routes/cards');
 
-app.use(express.json());
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use('/api/columns', columnsRouter);
 app.use('/api/cards', cardsRouter);
 
