@@ -48,8 +48,8 @@ router.put('/:id', auth, async (req, res) => {
         return res.status(400).send('Invalid Resource.');
 
     const input = Joi.object({
-        column: Joi.string().required(),
-        title: Joi.string().min(1).max(256).required(),
+        column: Joi.string(),
+        title: Joi.string().min(1).max(256),
         content: Joi.string(),
         order: Joi.number().min(0)
     });
