@@ -9,6 +9,10 @@ const columnsSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    color: {
+        type: String,
+        default: '#EAE7DC'
+    },
     createdAt: {
         type: Date,
         default: Date.now

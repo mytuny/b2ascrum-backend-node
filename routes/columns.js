@@ -33,11 +33,12 @@ router.get('/', auth, async (req, res) => {
 router.post('/', auth, (req, res) => {
     const input = Joi.object({
         name: Joi.string().min(1).max(256).required(),
+        color: Joi.string(),
         order: Joi.number().min(0)
     });
 
     const {error, value} = input.validate(req.body);
-    if(error) return res.status(400).send(error);
+    if(error) return res.status(400).send(error.details[0].message);
 
     try {
         const column = new Column(value);
@@ -58,19 +59,36 @@ router.put('/:id', auth, async (req, res) => {
 
     const input = Joi.object({
         name: Joi.string().min(1).max(256).required(),
+        color: Joi.string(),
         order: Joi.number().min(0)
     });
 
     const {error, value} = input.validate(req.body);
-    if(error) return res.status(400).send(error);
+    if(error) return res.status(400).send(error.details[0].message);
 
     try {
         value['updatedAt'] = Date.now();
         const column = await Column.findOneAndUpdate({_id: req.params.id}, value);
         return res.status(200).send(column);
     } catch(error) {
-        return res.status(500).send(error);
+        return res.status(500).send('Failed to update the column.');
     }
+});
+
+/**
+ * DELETE /api/comumns/:id
+ * Delete Column By ID
+ */
+router.delete('/:id', auth, async (req, res) => {
+    if( !req.params.id )
+        return res.status(400).send('Invalid Resource.');
+
+    // try {
+        Column.findOneAndRemove({_id: req.params.id}, (err, result) => console.log(err));
+        return res.status(200).send('OK');
+    // } catch(error) {
+    //     return res.status(500).send('Failed to delete the column.');
+    // }
 });
 
 module.exports = router;

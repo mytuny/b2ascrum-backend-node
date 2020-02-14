@@ -28,7 +28,7 @@ router.post('/', auth, (req, res) => {
     });
     console.log(req.body);
     const {error, value} = input.validate(req.body);
-    if(error) return res.status(400).send(error);
+    if(error) return res.status(400).send(error.details[0].message);
 
     try {
         const card = new Card(value);
@@ -55,7 +55,7 @@ router.put('/:id', auth, async (req, res) => {
     });
 
     const {error, value} = input.validate(req.body);
-    if(error) return res.status(400).send(error);
+    if(error) return res.status(400).send(error.details[0].message);
 
     try {
         value['updatedAt'] = Date.now();
@@ -63,6 +63,22 @@ router.put('/:id', auth, async (req, res) => {
         return res.status(200).send(card);
     } catch(error) {
         return res.status(400).send(error);
+    }
+});
+
+/**
+ * DELETE /api/cards/:id
+ * Delete Card By ID
+ */
+router.delete('/:id', auth, async (req, res) => {
+    if( !req.params.id )
+        return res.status(400).send('Invalid Resource.');
+
+    try {
+        const card = Card.findOneAndRemove({_id: req.params.id});
+        return res.status(200).send(card);
+    } catch(error) {
+        return res.status(500).send('Failed to delete the card.');
     }
 });
 

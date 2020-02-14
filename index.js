@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser')
 
-mongoose.connect('mongodb://localhost:27017/b2ascrum', {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect('mongodb://localhost:27017/b2ascrum', {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
 .then(() => console.log('Connected to MongoDB...'))
 .catch(err => console.log('Could not connect to MongoDB.'));
 
